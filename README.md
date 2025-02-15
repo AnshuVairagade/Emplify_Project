@@ -26,18 +26,8 @@ The **Employee Management System** is a full-stack web application designed to m
 - **Tools:** Git, Postman, IntelliJ IDEA, VS Code
 
 ## 📂 Project Structure
-Employee-Management-System/
-├── frontend/ # React frontend
-│ ├── src/ # React components and pages
-│ ├── public/ # Static assets
-│ ├── package.json # Frontend dependencies
-│ └── ...
-├── backend/ # Spring Boot backend
-│ ├── src/ # Java source code
-│ ├── pom.xml # Maven dependencies
-│ └── ...
-├── README.md # Project documentation
-└── .gitignore # Git ignore file
+![image](https://github.com/user-attachments/assets/b6267223-08b3-4e48-bfec-853cbf59e7e9)
+
 
 
 ## 🚀 Setup Instructions
