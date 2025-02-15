@@ -2,10 +2,3 @@
 frontend/creact-frontend/node_modules/
 frontend/creact-frontend/build/
 frontend/creact-frontend/.env
-
-# Backend (Spring Boot) ignores
-backend/springboot-backend/target/
-backend/springboot-backend/.idea/
-backend/springboot-backend/*.iml
-backend/springboot-backend//.mvn/
-backend/springboot-backend/logs/
