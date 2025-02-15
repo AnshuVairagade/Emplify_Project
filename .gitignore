@@ -1,0 +1,4 @@
+# Frontend (React) ignores
+frontend/creact-frontend/node_modules/
+frontend/creact-frontend/build/
+frontend/creact-frontend/.env
