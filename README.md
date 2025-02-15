@@ -47,29 +47,29 @@ mvn clean install
 Ensure the MySQL database is configured in application.properties.
 
 ### 🌐 API Endpoints
-GET /api/v1/employees: Fetch all employees.
-GET /api/v1/employees/{id}: Fetch an employee by ID.
-POST /api/v1/employees: Add a new employee.
-PUT /api/v1/employees/{id}: Update an existing employee.
-DELETE /api/v1/employees/{id}: Delete an employee.
+- GET /api/v1/employees: Fetch all employees.
+- GET /api/v1/employees/{id}: Fetch an employee by ID.
+- POST /api/v1/employees: Add a new employee.
+- PUT /api/v1/employees/{id}: Update an existing employee.
+- DELETE /api/v1/employees/{id}: Delete an employee.
 
 ### 🏆 Key Achievements
-Reduced API response time by 30% through optimized database interactions.
-Improved query execution time by 20% using JPA.
-Built a modular and maintainable codebase for future scalability.
+- Reduced API response time by 30% through optimized database interactions.
+- Improved query execution time by 20% using JPA.
+- Built a modular and maintainable codebase for future scalability.
 
 ### 📸 Screenshots
 ![image](https://github.com/user-attachments/assets/5449419e-bd9c-432d-a5d4-382cb25a8442)
 
 
 ## 🤝 Contributing
-Contributions are welcome! If you'd like to contribute:
-Fork the repository.
-Create a new branch (git checkout -b feature/YourFeatureName).
-Commit your changes (git commit -m 'Add some feature').
-Push to the branch (git push origin feature/YourFeatureName).
-Open a pull request.
+- Contributions are welcome! If you'd like to contribute:
+- Fork the repository.
+- Create a new branch (git checkout -b feature/YourFeatureName).
+- Commit your changes (git commit -m 'Add some feature').
+- Push to the branch (git push origin feature/YourFeatureName).
+- Open a pull request.
 
 ## 📜 License
-This project is licensed under the MIT License. See the LICENSE file for details.
+- This project is licensed under the MIT License. See the LICENSE file for details.
 
