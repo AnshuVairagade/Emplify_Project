@@ -1,4 +1,3 @@
-# Emplify_Project
 # 🚀 Employee Management System
 
 ## 📝 Project Description
