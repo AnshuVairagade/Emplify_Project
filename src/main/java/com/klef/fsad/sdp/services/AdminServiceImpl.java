@@ -1,9 +1,11 @@
 package com.klef.fsad.sdp.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.klef.fsad.sdp.model.Admin;
 import com.klef.fsad.sdp.model.Email;
@@ -50,6 +52,8 @@ public class AdminServiceImpl implements AdminService {
 		e.setRecipient(manager.getEmail());
 		e.setSubject("Welcome Manager to EMS!");
 		e.setMessage("Hi " + manager.getName() + ", \n\nYou have been successfully added. \n\nManager ID: " + manager.getId() + "\nUsername: " + manager.getUsername() + "\nPassword: " + manager.getPassword());
+		e.setSentAt(LocalDateTime.now());
+		e.setStatus("SENT");
 		emailRepository.save(e);
 		emailService.sendEmail(e.getRecipient(),e.getSubject(),e.getMessage());
 		
@@ -57,6 +61,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Cacheable("allManagers")
 	public List<Manager> viewAllManagers() {
 		return managerRepository.findAll();
 	}
@@ -74,6 +79,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Cacheable("allEmployees")
 	public List<Employee> viewAllEmployees() {
 		return employeeRepository.findAll();
 	}
@@ -91,16 +97,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Cacheable("managerCount")
 	public long managercount() {
 		return managerRepository.count();
 	}
 
 	@Override
+	@Cacheable("employeeCount")
 	public long employeecount() {
 		return employeeRepository.count();
 	}
 
 	@Override
+	@Cacheable("allLeaves")
 	public List<Leave> viewAllLeaveApplications() {
 		return leaveRepository.findAll();
 	}
@@ -120,11 +129,7 @@ public class AdminServiceImpl implements AdminService {
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		
-		sb.append(upper.charAt(random.nextInt(upper.length()))); 
-		// upper.length() is 26
-		// suppose random.nextInt(26) gives 7
-		// so upper.charAt(7) is H 
-		// Then sb.append('H') will add this into String builder.
+		sb.append(upper.charAt(random.nextInt(upper.length())));
 		sb.append(lower.charAt(random.nextInt(lower.length())));
 		sb.append(digits.charAt(random.nextInt(digits.length())));
 		sb.append(special.charAt(random.nextInt(special.length())));

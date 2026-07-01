@@ -1,5 +1,6 @@
 package com.klef.fsad.sdp.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "employee_table")
-public class Employee {
+public class Employee implements Serializable {
 	@Id
 	@Column(name = "emp_id")
 	private Long id;

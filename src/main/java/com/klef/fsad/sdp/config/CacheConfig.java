@@ -19,13 +19,13 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .prefixCacheNameWith("my-redis-")
-                .entryTtl(Duration.ofSeconds(66))
-                .enableTimeToIdle()
-                .serializeKeysWith(RedisSerializationContext
-                        .SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair
-                        .fromSerializer(new GenericJackson2JsonRedisSerializer()));;
+                                                        .prefixCacheNameWith("my-redis-")
+                                                        .entryTtl(Duration.ofSeconds(66))
+                                                        .enableTimeToIdle()
+                                                        .serializeKeysWith(RedisSerializationContext
+                                                                .SerializationPair.fromSerializer(new StringRedisSerializer()))
+                                                        .serializeValuesWith(RedisSerializationContext.SerializationPair
+                                                                .fromSerializer(new GenericJackson2JsonRedisSerializer()));;
 
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration)
