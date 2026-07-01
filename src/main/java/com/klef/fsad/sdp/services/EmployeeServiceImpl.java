@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.klef.fsad.sdp.model.Duty;
@@ -36,7 +34,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@CacheEvict(value = "allEmployees", allEntries = true)
 	public String registerEmployee(Employee emp) {
 		Long eid = generateRandomEmployeeId();
 		emp.setId(eid);
@@ -50,51 +47,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@CacheEvict(
-			value = {
-					"employee",
-					"employeeByUsername",
-					"employeeByEmail"
-			},
-			allEntries = true
-	)
 	public String updateEmployeeProfile(Employee emp) {
 		employeeRepository.save(emp);
 		return "Employee Updated Successfully";
 	}
 
 	@Override
-	@Cacheable(value = "employee", key = "#id")
 	public Employee findEmployeeById(Long id) {
 		return employeeRepository.findById(id).orElse(null);
 	}
 
 	@Override
-	@Cacheable(value = "employeeByUsername", key = "#username")
 	public Employee findEmployeeByUsername(String username) {
 		return employeeRepository.findByUsername(username);
 	}
 
 	@Override
-	@Cacheable(value = "employeeByEmail", key = "#email")
 	public Employee findEmployeeByEmail(String email) {
 		return employeeRepository.getEmployeeByEmail(email);
 	}
 
 	@Override
-	@Cacheable("allEmployees")
 	public List<Employee> viewAllEmployees() {
 		return employeeRepository.findAll();
 	}
 
 	@Override
-	@CacheEvict(
-			value = {
-					"employee",
-					"allEmployees"
-			},
-			allEntries = true
-	)
 	public String updateAccountStatus(Long empid, String status) {
 		Optional<Employee> emp = employeeRepository.findById(empid);
 		if(emp.isPresent()) {
@@ -107,7 +85,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@Cacheable(value = "employeeDuties", key = "#empid")
 	public List<Duty> viewAssignedDuties(Long empid) {
 		Employee emp = employeeRepository.findById(empid).orElse(null);
 		if(emp != null) {
@@ -118,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public String generateResetToken(String email) {
-		Optional<Employee> employee = employeeRepository.findByEmail(email);
+		Optional<Manager> employee = employeeRepository.findByEmail(email);
 		if(employee.isPresent()) {
 			String token = UUID.randomUUID().toString();
 			
@@ -154,15 +131,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void updatePassword(String token, String newPassword) {
 		Optional<ResetToken> resetToken = resetTokenRepository.findByToken(token);
 		if(resetToken.isPresent() && !isTokenExpired(token)) {
-
-			String email = resetToken.get().getEmail();
-			Employee employee = employeeRepository.getEmployeeByEmail(email);
-
-			if (employee != null) {
-				employee.setPassword(newPassword);
-				employeeRepository.save(employee);
-				deleteResetToken(token);
-			}
+			Employee e = new Employee();
+			e.setPassword(newPassword);
+			employeeRepository.save(e);
+			deleteResetToken(token);
 		}
 	}
 
@@ -195,7 +167,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		
-		sb.append(upper.charAt(random.nextInt(upper.length())));
+		sb.append(upper.charAt(random.nextInt(upper.length()))); 
+		// upper.length() is 26
+		// suppose random.nextInt(26) gives 7
+		// so upper.charAt(7) is H 
+		// Then sb.append('H') will add this into String builder.
 		sb.append(lower.charAt(random.nextInt(lower.length())));
 		sb.append(digits.charAt(random.nextInt(digits.length())));
 		sb.append(special.charAt(random.nextInt(special.length())));

@@ -3,7 +3,6 @@ package com.klef.fsad.sdp.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.klef.fsad.sdp.model.Employee;
@@ -35,13 +34,11 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	@Cacheable(value = "employeeLeaves", key = "#empid")
 	public List<Leave> viewLeavesByEmployee(Long empid) {
 		return leaveRepository.findByEmployeeId(empid);
 	}
 
 	@Override
-	@Cacheable("pendingLeaves")
 	public List<Leave> viewAllPendingLeaves() {
 		return leaveRepository.findByStatus("PENDING");
 	}
@@ -58,7 +55,6 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	@Cacheable(value = "managerLeaves", key = "#managerid")
 	public List<Leave> viewLeavesByManager(Long managerid) {
 		return leaveRepository.findByManagerId(managerid);
 	}

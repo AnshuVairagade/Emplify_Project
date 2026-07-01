@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.klef.fsad.sdp.model.Employee;
@@ -32,31 +31,26 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@Cacheable(value = "manager", key = "#id")
 	public Manager findManagerById(Long id) {
 		return managerRepository.findById(id).get();
 	}
 
 	@Override
-	@Cacheable(value = "managerByUsername", key = "#username")
 	public Manager findManagerByUsername(String username) {
 		return managerRepository.findByUsername(username);
 	}
 
 	@Override
-	@Cacheable(value = "managerByEmail", key = "#email")
 	public Manager findManagerByEmail(String email) {
 		return managerRepository.getManagerByEmail(email);
 	}
 
 	@Override
-	@Cacheable("allManagers")
 	public List<Manager> viewAllManagers() {
 		return managerRepository.findAll();
 	}
 
 	@Override
-	@Cacheable("allEmployees")
 	public List<Employee> viewAllEmployees() {
 		return employeeRepository.findAll();
 	}
@@ -81,13 +75,13 @@ public class ManagerServiceImpl implements ManagerService {
 		Optional<Manager> manager = managerRepository.findByEmail(email);
 		if(manager.isPresent()) {
 			String token = UUID.randomUUID().toString();
-
+			
 			ResetToken rt = new ResetToken();
 			rt.setToken(token);
 			rt.setEmail(email);
 			rt.setCreatedAt(LocalDateTime.now());
 			rt.setExpiresAt(LocalDateTime.now().plusMinutes(5)); // 5mins
-
+			
 			resetTokenRepository.save(rt);
 			return token;
 		}
@@ -113,17 +107,11 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public void updatePassword(String token, String newPassword) {
 		Optional<ResetToken> resetToken = resetTokenRepository.findByToken(token);
-		if (resetToken.isPresent() && !isTokenExpired(token)) {
-
-			String email = resetToken.get().getEmail();
-			Optional<Manager> manager = managerRepository.findByEmail(email);
-
-			if (manager.isPresent()) {
-				Manager m = manager.get();
-				m.setPassword(newPassword);
-				managerRepository.save(m);
-				deleteResetToken(token);
-			}
+		if(resetToken.isPresent() && !isTokenExpired(token)) {
+			Manager m = new Manager();
+			m.setPassword(newPassword);
+			managerRepository.save(m);
+			deleteResetToken(token);
 		}
 	}
 
