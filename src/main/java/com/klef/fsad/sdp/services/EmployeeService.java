@@ -24,4 +24,7 @@ public interface EmployeeService {
 	public void updatePassword(String token, String newPassword);
 	public void deleteResetToken(String token);
 	public boolean isTokenExpired(String token);
+
+    class OAuthUserService {
+    }
 }
